@@ -9,15 +9,15 @@ class failing_sink : public spdlog::sinks::base_sink<std::mutex>
 {
 public:
     failing_sink() = default;
-    ~failing_sink() = default;
+    ~failing_sink() final = default;
 
 protected:
-    void sink_it_(const spdlog::details::log_msg &) override
+    void sink_it_(const spdlog::details::log_msg &) final
     {
         throw std::runtime_error("some error happened during log");
     }
 
-    void flush_() override
+    void flush_() final
     {
         throw std::runtime_error("some error happened during flush");
     }
@@ -25,7 +25,6 @@ protected:
 
 TEST_CASE("default_error_handler", "[errors]]")
 {
-
     prepare_logdir();
     std::string filename = "logs/simple_log.txt";
 
@@ -84,7 +83,9 @@ TEST_CASE("async_error_handler", "[errors]]")
         logger->set_error_handler([=](const std::string &) {
             std::ofstream ofs("logs/custom_err.txt");
             if (!ofs)
+            {
                 throw std::runtime_error("Failed open logs/custom_err.txt");
+            }
             ofs << err_msg;
         });
         logger->info("Good message #1");

@@ -6,12 +6,14 @@
 #include <cstdio>
 #include <exception>
 #include <fstream>
+#include <iostream>
 #include <ostream>
 #include <string>
 
-#define SPDLOG_TRACE_ON
-#define SPDLOG_DEBUG_ON
+#define SPDLOG_ACTIVE_LEVEL SPDLOG_LEVEL_DEBUG
+#define SPDLOG_ENABLE_MESSAGE_COUNTER
 
+#include "spdlog/spdlog.h"
 #include "spdlog/async.h"
 #include "spdlog/sinks/basic_file_sink.h"
 #include "spdlog/sinks/daily_file_sink.h"
@@ -19,4 +21,3 @@
 #include "spdlog/sinks/ostream_sink.h"
 #include "spdlog/sinks/rotating_file_sink.h"
 #include "spdlog/sinks/stdout_color_sinks.h"
-#include "spdlog/spdlog.h"
